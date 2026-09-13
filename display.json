@@ -1,0 +1,7 @@
+{
+  "name": "Time Clockfaces",
+  "category": "TIME",
+  "icon": "\u23f1\ufe0f",
+  "description": "Time, Scheduling & Synch Controls component for APK.audio ecosystem.",
+  "entry": "main.py"
+}
