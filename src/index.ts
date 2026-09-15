@@ -10,6 +10,7 @@ import horizontal from './horizontal.js';
 import lcd from './lcd.js';
 import ledring from './ledring.js';
 import nixie from './nixie.js';
+import smith from './smith.js';
 import timeextreme from './timeextreme.js';
 import watch from './watch.js';
 
@@ -27,6 +28,7 @@ export { default as horizontal } from './horizontal.js';
 export { default as lcd } from './lcd.js';
 export { default as ledring } from './ledring.js';
 export { default as nixie } from './nixie.js';
+export { default as smith } from './smith.js';
 export { default as timeextreme } from './timeextreme.js';
 export { default as watch } from './watch.js';
 
@@ -42,6 +44,7 @@ export const ALL_FACES: FaceDef[] = [
   lcd,
   ledring,
   nixie,
+  smith,
   timeextreme,
   watch,
 ];
