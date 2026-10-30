@@ -12,4 +12,4 @@ Is `TIME.clockFaces` deployed? Written by `.apk.scripts/smoke.py` from the modul
 
 Re-run: `python3 .apk.scripts/smoke.py PODS/POD.THIN/Softapps/TIME/TIME.clockFaces`
 
-<!-- smoke:sig 9204d7f491fe since 2026-10-30 12:51 EDT -->
+<!-- smoke:sig ffe07fd7bcd4 since 2026-10-30 12:51 EDT -->
