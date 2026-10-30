@@ -28,6 +28,9 @@ A face is pure: `draw(g, S, { z, now, res, state })` paints into an S×S canvas 
 ### How the OS uses it
 `PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs` bundles the face files (named one by one: digital, ledring, analog, flip, cat, casio, timeextreme, bigben, nixie, flu, horizontal, watch, smith) with esbuild into `OS/Footer/clock-faces/spog-clock-faces.js`, which assigns `window.OS.clockFaces`. The taskbar clock (`render-tray-clock.js`) and the NRC clock (`OS/Clock/nrc-time-signal/mount-nrc-clock.js`) read faces from that array. `src/index.ts` is not used by that bundle.
 
+### How SPOG uses it
+WEB.SPOG mounts this repo as a submodule at `src/ui/clock-faces` (no second copy) and its CLOCK bench and TIMER wall clock glob `src/*.ts`, keeping every module with a default `FaceDef`.
+
 > ⚠️ `build-faces.mjs` still resolves the faces at `<POD.THIN>/APK:Softapps/TIME.clockFaces/src` and esbuild under `APK:Softapps/DXF/Code/node_modules`; neither path exists since the POD.task rename, so the committed `spog-clock-faces.js` cannot be rebuilt until that script is updated.
 
 ---

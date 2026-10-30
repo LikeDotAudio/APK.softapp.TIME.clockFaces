@@ -1,9 +1,11 @@
 // src/shared.ts — the clock-face contract + shared primitives.
 //
 // Every face lives in its own file under src/ and default-exports a FaceDef.
-// Nothing globs them: src/index.ts imports each one into ALL_FACES, and the OS
-// bundle (PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs) names each file in
-// its FACES list. Adding a face is a file plus a line in both. Faces are pure: they draw into an S×S canvas box from a FaceCtx
+// src/index.ts imports each one into ALL_FACES, and the OS bundle
+// (PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs) names each file in its
+// FACES list: adding a face is a file plus a line in both. WEB.SPOG mounts this
+// repo at src/ui/clock-faces and globs src/*.ts, so SPOG picks a new face up
+// by itself (anything with a default FaceDef). Faces are pure: they draw into an S×S canvas box from a FaceCtx
 // (the zone, the frame timestamp, the display resolution, and a per-window state bag
 // for animation) — no DOM, no globals.
 
