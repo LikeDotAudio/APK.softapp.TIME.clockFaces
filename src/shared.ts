@@ -1,8 +1,9 @@
-// src/editors/clock/faces/shared — the clock-face contract + shared primitives.
+// src/shared.ts — the clock-face contract + shared primitives.
 //
-// Every face lives in its own file under faces/ and default-exports a FaceDef. The
-// clock editor collects them with import.meta.glob (see index.ts), so adding a face
-// is "drop a file". Faces are pure: they draw into an S×S canvas box from a FaceCtx
+// Every face lives in its own file under src/ and default-exports a FaceDef.
+// Nothing globs them: src/index.ts imports each one into ALL_FACES, and the OS
+// bundle (PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs) names each file in
+// its FACES list. Adding a face is a file plus a line in both. Faces are pure: they draw into an S×S canvas box from a FaceCtx
 // (the zone, the frame timestamp, the display resolution, and a per-window state bag
 // for animation) — no DOM, no globals.
 

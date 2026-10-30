@@ -19,7 +19,7 @@ A standalone Git repository, mounted as a submodule at `PODS/POD.THIN/Softapps/T
 | `src/shared.ts` | The face contract (`FaceDef`, `FaceCtx`, `FaceDraw`) and shared helpers: the `ZONES` world-clock catalogue (UTC offsets in minutes), `parseZone` / `deriveZones`, `zoneTime` / `zoneCal`, resolutions `hm` / `hms` / `hmsf` at 30 fps frames, `formatTime`, `roundRect` |
 | `src/<face>.ts` | One face per file, each default-exporting a `FaceDef { id, label, short, order?, fit, lightBg?, draw }`: `analog`, `bigben`, `casio`, `cat`, `digital`, `flip`, `flu`, `horizontal`, `ledring`, `nixie`, `smith`, `timeextreme`, `watch` |
 | `src/lcd.ts` | Seven-segment LCD renderer used by `casio` and `timeextreme`; not a face (no default export) |
-| `src/index.ts` | Barrel: re-exports `shared` and every face, and `ALL_FACES` |
+| `src/index.ts` | Barrel: re-exports `shared`, every face, `lcd` as a namespace, and `ALL_FACES` (the 13 faces) |
 | `Smith Chart/` | Submodule `APK.softapp.TIME.SmithChart` — the full Smith Chart Clock (`smith_chart_clock.html`, `SmithChartClock/`); documented in its own README |
 | `display.json` | The OS shell's display entry |
 
@@ -41,7 +41,7 @@ There is no `package.json`, build or test here. To type-check (with a TypeScript
 ../../EDITORS/EDITORS.CAD.Like.audio/node_modules/.bin/tsc --noEmit --target ES2022 \
   --module NodeNext --moduleResolution NodeNext --lib ES2022,DOM --strict src/index.ts
 ```
-> ⚠️ This currently reports three errors: `src/index.ts` imports a default export from `lcd.ts`, which has none (so `ALL_FACES` would hold `undefined`), and `src/watch.ts` uses the type `FaceDraw` without importing it. The OS bundle is unaffected — esbuild strips types and does not go through `index.ts`.
+It reports no errors. `src/index.ts`'s `ALL_FACES` holds the 13 faces; `lcd` is re-exported as a namespace, not a face.
 
 After changing a face, the OS bundle has to be rebuilt (`node build-faces.mjs` in `OS/Footer/clock-faces/`, once its paths are fixed) and the OS images re-baked.
 
@@ -56,6 +56,9 @@ After changing a face, the OS bundle has to be rebuilt (`node build-faces.mjs` i
 * **One source, no hand-ported copy.** The OS bundles these files instead of keeping its own copy (`build-faces.mjs` header).
 
 ---
+
+## 📚 Wiki
+The depth lives in the wiki: [Documentation/README.md](Documentation/README.md) — principles, architecture, delivery.
 
 ## 🛣 Plans
 Plans live only in the monorepo roadmap: `Documentation/🛣Roadmap/roadmap.htm`.

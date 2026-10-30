@@ -1,4 +1,5 @@
-// src/index.ts — Barrel export for TIME.clockFaces softapp suite.
+// src/index.ts — Barrel export for TIME.clockFaces: shared helpers, every face,
+// the lcd renderer (a namespace, not a face) and ALL_FACES (the 13 faces).
 import analog from './analog.js';
 import bigben from './bigben.js';
 import casio from './casio.js';
@@ -7,7 +8,6 @@ import digital from './digital.js';
 import flip from './flip.js';
 import flu from './flu.js';
 import horizontal from './horizontal.js';
-import lcd from './lcd.js';
 import ledring from './ledring.js';
 import nixie from './nixie.js';
 import smith from './smith.js';
@@ -25,7 +25,7 @@ export { default as digital } from './digital.js';
 export { default as flip } from './flip.js';
 export { default as flu } from './flu.js';
 export { default as horizontal } from './horizontal.js';
-export { default as lcd } from './lcd.js';
+export * as lcd from './lcd.js'; // the seven-segment renderer, not a face
 export { default as ledring } from './ledring.js';
 export { default as nixie } from './nixie.js';
 export { default as smith } from './smith.js';
@@ -41,7 +41,6 @@ export const ALL_FACES: FaceDef[] = [
   flip,
   flu,
   horizontal,
-  lcd,
   ledring,
   nixie,
   smith,

@@ -1,4 +1,4 @@
-// src/editors/clock/faces/smith — the Smith chart read as a clock. Resistance
+// src/smith.ts — the Smith chart read as a clock. Resistance
 // circles and reactance arcs for a dial, the real axis as one day with a dot
 // riding it, and each hand on its own constant-VSWR ring: minute outermost, hour
 // inside it. The purple arm is the hour and minute added as vectors, the

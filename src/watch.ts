@@ -1,6 +1,6 @@
 // src/watch.ts — Luxury Chronograph Wristwatch Face.
 // Polished metallic bezel, sunburst dial, 3 sub-dials, date window, and luminescent hands.
-import { type FaceDef, type FaceCtx, zoneTime, zoneCal, TAU, WEEKDAY3 } from './shared.js';
+import { type FaceDef, type FaceCtx, type FaceDraw, zoneTime, zoneCal, TAU, WEEKDAY3 } from './shared.js';
 
 function drawSubDial(
   g: CanvasRenderingContext2D,
