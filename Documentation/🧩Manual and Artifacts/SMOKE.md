@@ -1,6 +1,6 @@
-# Smoke test — clock-faces
+# Smoke test — TIME.clockFaces
 
-Is `clock-faces` deployed? Written by `.apk.scripts/smoke.py` from the module's own shape; what each check means is in that script's header.
+Is `TIME.clockFaces` deployed? Written by `.apk.scripts/smoke.py` from the module's own shape; what each check means is in that script's header.
 
 ← [Wiki home](../README.md)
 
@@ -10,6 +10,6 @@ Is `clock-faces` deployed? Written by `.apk.scripts/smoke.py` from the module's 
 |---|---|---|---|
 | pushed | [APK.softapp.TIME.clockFaces](https://github.com/LikeDotAudio/APK.softapp.TIME.clockFaces.git) | ✅ | HEAD is on origin |
 
-Re-run: `python3 .apk.scripts/smoke.py PODS/POD.THIN/WEB.SPOG/src/ui/clock-faces`
+Re-run: `python3 .apk.scripts/smoke.py PODS/POD.THIN/Softapps/TIME/TIME.clockFaces`
 
 <!-- smoke:sig ffe07fd7bcd4 since 2026-10-30 12:51 EDT -->
