@@ -1,7 +1,7 @@
 {
   "name": "Time Clockfaces",
   "category": "TIME",
-  "icon": "\u23f1\ufe0f",
-  "description": "Time, Scheduling & Synch Controls component for APK.audio ecosystem.",
-  "entry": "main.py"
+  "icon": "⏱️",
+  "description": "Clock faces: thirteen canvas draw functions the OS bundles into its taskbar clock and Clock window. Source only, no page of its own.",
+  "tech": "folder"
 }
