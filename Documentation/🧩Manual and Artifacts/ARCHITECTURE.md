@@ -19,7 +19,8 @@ type FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx) => void
 interface FaceCtx { z: Zone; now: number; res: Resolution; state: FaceState }
 ```
 
-`fit` is the share of the square the face fills; `state` is a per-window bag a face may use for
+`fit` is the content aspect `[w, h]` within the S×S box (how a window sizes it); `now` is a
+`performance.now()` timestamp; `state` is a per-window bag a face may use for
 animation (e.g. `c.state.flip`).
 
 ## How the OS uses it
