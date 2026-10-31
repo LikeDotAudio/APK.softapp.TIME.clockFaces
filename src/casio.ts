@@ -4,7 +4,7 @@
 // clock built in, like the real thing.
 import { type FaceDef, type FaceCtx, zoneTime, zoneCal, WEEKDAY3, pad, roundRect } from './shared.js';
 import { drawLcd, lcdWidth, type LcdStyle } from './lcd.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const t = zoneTime(c.z), cal = zoneCal(c.z);
@@ -18,7 +18,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   steel.addColorStop(0.55, PAL.grey64); steel.addColorStop(1, PAL.sky82);
   roundRect(g, bx, by, bw, bh, br); g.fillStyle = steel; g.fill();
   roundRect(g, bx + S * 0.015, by + S * 0.015, bw - S * 0.03, bh - S * 0.03, br - S * 0.015);
-  g.strokeStyle = 'rgba(255,255,255,0.55)'; g.lineWidth = S * 0.006; g.stroke();
+  g.strokeStyle = alpha(PAL.white, 0.55); g.lineWidth = S * 0.006; g.stroke();
 
   // ---- bezel engraving: the TIME ZONE (top) + accents ----
   g.textAlign = 'center'; g.textBaseline = 'middle';
@@ -42,7 +42,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   lcdbg.addColorStop(0, PAL.lime80); lcdbg.addColorStop(1, PAL.grey69);
   roundRect(g, lx, ly, lw, lh, fr / 2); g.fillStyle = lcdbg; g.fill();   // LCD = ½ frame
 
-  const on = PAL.lime10, off = 'rgba(30,36,20,0.10)';
+  const on = PAL.lime10, off = alpha(PAL.lime11, 0.10);
   // ---- top strip: AM/PM + signal bars · weekday · date ----
   const topY = ly + lh * 0.16;
   g.fillStyle = on; g.textBaseline = 'middle';

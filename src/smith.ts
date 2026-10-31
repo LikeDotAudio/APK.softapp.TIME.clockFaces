@@ -5,7 +5,7 @@
 // interference sum the full Smith Chart Clock traces over a day. That clock, with
 // its controls, is the Clock's Smith Chart tab; this is its small sibling.
 import { type FaceDef, type FaceCtx, zoneTime, TAU } from './shared.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 const GRID = [0.2, 0.5, 1, 2, 5];
 const MAG = { hour: 0.6, minute: 0.95, second: 0.85 };
@@ -40,7 +40,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
 
   // Each hand's constant-VSWR ring, faint and dashed
   g.setLineDash([S * 0.008, S * 0.012]);
-  g.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+  g.strokeStyle = alpha(PAL.blue65s20, 0.25);
   for (const m of [MAG.hour, MAG.minute]) {
     g.beginPath(); g.arc(cx, cy, m * R, 0, TAU); g.stroke();
   }

@@ -1,7 +1,7 @@
 // src/watch.ts — Luxury Chronograph Wristwatch Face.
 // Polished metallic bezel, sunburst dial, 3 sub-dials, date window, and luminescent hands.
 import { type FaceDef, type FaceCtx, type FaceDraw, zoneTime, zoneCal, TAU, WEEKDAY3 } from './shared.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 function drawSubDial(
   g: CanvasRenderingContext2D,
@@ -14,13 +14,13 @@ function drawSubDial(
   // Sub-dial inset shadow background
   g.fillStyle = PAL.blue10s22;
   g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.fill();
-  g.strokeStyle = 'rgba(212, 175, 55, 0.4)'; g.lineWidth = Math.max(1, R * 0.08); g.stroke();
+  g.strokeStyle = alpha(PAL.amber52, 0.4); g.lineWidth = Math.max(1, R * 0.08); g.stroke();
 
   // Sub-dial ticks
   for (let i = 0; i < 12; i++) {
     const a = -Math.PI / 2 + (i / 12) * TAU;
     const rIn = R * 0.78, rOut = R * 0.92;
-    g.strokeStyle = 'rgba(200, 210, 220, 0.6)';
+    g.strokeStyle = alpha(PAL.sky82s22, 0.6);
     g.lineWidth = i % 3 === 0 ? 1.5 : 1;
     g.beginPath();
     g.moveTo(cx + Math.cos(a) * rIn, cy + Math.sin(a) * rIn);
@@ -130,7 +130,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
     } else {
       // Minute Ticks
       const rIn = dialR * 0.88, rOut = dialR * 0.92;
-      g.strokeStyle = 'rgba(200, 215, 230, 0.5)';
+      g.strokeStyle = alpha(PAL.sky84, 0.5);
       g.lineWidth = S * 0.004;
       g.beginPath();
       g.moveTo(cx + Math.cos(a) * rIn, cy + Math.sin(a) * rIn);

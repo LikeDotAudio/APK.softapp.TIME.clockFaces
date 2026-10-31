@@ -4,7 +4,7 @@
 // LCD family as the Clasio face.
 import { type FaceDef, type FaceCtx, zoneTime, zoneCal, WEEKDAY3, pad, roundRect } from './shared.js';
 import { drawLcd, lcdWidth, type LcdStyle } from './lcd.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const t = zoneTime(c.z), cal = zoneCal(c.z);
@@ -47,7 +47,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   lcdbg.addColorStop(0, PAL.lime80s15); lcdbg.addColorStop(1, PAL.grey69s12);
   roundRect(g, lx, ly, lw, lh, fr / 2); g.fillStyle = lcdbg; g.fill();   // LCD = ½ frame
 
-  const on = PAL.lime10, off = 'rgba(30,36,20,0.10)';
+  const on = PAL.lime10, off = alpha(PAL.lime11, 0.10);
 
   // IRONMAN TRIATHLON header.
   g.textBaseline = 'middle';
@@ -72,7 +72,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   g.fillText('CHR', lx + lw * 0.16, labY);
   g.fillText('CDR', lx + lw * 0.56, labY);
   for (let i = 0; i < 4; i++) g.fillRect(lx + lw * 0.8 + i * S * 0.014, labY - i * S * 0.006, S * 0.008, S * 0.006 + i * S * 0.006);
-  g.strokeStyle = 'rgba(30,36,20,0.35)'; g.lineWidth = 1;
+  g.strokeStyle = alpha(PAL.lime11, 0.35); g.lineWidth = 1;
   g.beginPath(); g.moveTo(lx + lw * 0.05, labY + lh * 0.06); g.lineTo(lx + lw * 0.95, labY + lh * 0.06); g.stroke();
 
   // Bottom row: the time HH:MM.SS (big, sized to fit), with an "A" indicator.

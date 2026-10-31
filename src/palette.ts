@@ -30,7 +30,13 @@ const P = {
   sky73: '#b0bec5', sky75: '#80d8ff', sky82: '#ccd2d8', sky85: '#d0d7e0', sky91: '#e2e8f0', sky95: '#eef1f4',
   sky98: '#f8f9fa', teal50: '#00ffe5', teal70: '#66ffb2', violet65: '#a855f7', yellow94: '#f2f2ee',
   yellow96: '#f6f6f2', black: '#000000', white: '#ffffff',
+  amber29: '#785a1e', amber43: '#b08a2c', lime11: '#1e2414', blue18: '#262a36', blue05: '#0a0b10', blue98: '#f5f8ff', teal50_00ffc8: '#00ffc8', cyan50_00c8ff: '#00c8ff', sky20: '#28323c', sky39s20: '#506478', sky10: '#14191e', orange79: '#ffc896', orange24: '#643c14', orange17: '#3c2819', sky82s22: '#c8d2dc', sky84: '#c8d7e6',
 } as const;
 
 /** Typed as `#${string}` (not each literal) so a parameter defaulted from it stays any colour. */
 export const PAL: { readonly [K in keyof typeof P]: `#${string}` } = P;
+
+/** A colour at `a` (0..1) opacity, alpha as a field rather than a spelled rgba() — the twin of SPOG's
+ *  `alpha()` (src/domain/palette.ts). Inside SPOG the canvas setters see the hex in it through the
+ *  colour modes; a canvas parses color-mix() (Chrome 111+, Safari 16.2+, Firefox 113+). */
+export const alpha = (c: string, a: number): string => `color-mix(in srgb, ${c} ${+(a * 100).toFixed(2)}%, transparent)`;

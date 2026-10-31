@@ -3,7 +3,7 @@
 // in a barred minute ring, a gilt filigree rosette, and pierced Gothic hour + minute
 // hands. No second hand, as on the real clock.
 import { type FaceDef, type FaceCtx, zoneTime, TAU } from './shared.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 const ROMAN = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
 
@@ -28,9 +28,9 @@ function benHand(g: CanvasRenderingContext2D, cx: number, cy: number, frac: numb
   g.lineTo(-w, tail * 0.2);
   g.closePath();
   g.fillStyle = PAL.orange08; g.fill();
-  g.strokeStyle = 'rgba(214,176,74,0.9)'; g.lineWidth = Math.max(1, w * 0.5); g.stroke();
+  g.strokeStyle = alpha(PAL.amber56, 0.9); g.lineWidth = Math.max(1, w * 0.5); g.stroke();
   g.fillStyle = PAL.amber80; g.beginPath(); g.arc(0, -len * 0.62, w * 0.7, 0, TAU); g.fill();
-  g.strokeStyle = 'rgba(120,90,30,0.8)'; g.lineWidth = 1; g.stroke();
+  g.strokeStyle = alpha(PAL.amber29, 0.8); g.lineWidth = 1; g.stroke();
   g.restore();
 }
 
@@ -72,7 +72,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   }
 
   g.fillStyle = PAL.amber90; g.beginPath(); g.arc(cx, cy, rIn * 0.98, 0, TAU); g.fill();
-  g.strokeStyle = 'rgba(176,138,44,0.75)'; g.lineWidth = Math.max(1, S * 0.0035);
+  g.strokeStyle = alpha(PAL.amber43, 0.75); g.lineWidth = Math.max(1, S * 0.0035);
   const petals = 16;
   for (let i = 0; i < petals; i++) {
     const f1 = i / petals, f2 = (i + 1) / petals, fm = (i + 0.5) / petals;

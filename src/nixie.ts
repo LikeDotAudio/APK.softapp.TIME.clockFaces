@@ -1,7 +1,7 @@
 // src/nixie.ts — Vintage IN-14 Nixie Tube Clock Face.
 // Warm neon gas-discharge digits glowing inside glass tubes with wire mesh anodes.
 import { type FaceDef, type FaceCtx, zoneTime, formatTime, type FaceDraw } from './shared.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 function drawNixieTube(
   g: CanvasRenderingContext2D,
@@ -12,11 +12,11 @@ function drawNixieTube(
 
   // Glass tube outline + subtle reflections
   const tubeGrad = g.createLinearGradient(x, y, x + w, y);
-  tubeGrad.addColorStop(0, 'rgba(40, 50, 60, 0.85)');
-  tubeGrad.addColorStop(0.15, 'rgba(80, 100, 120, 0.4)');
-  tubeGrad.addColorStop(0.5, 'rgba(20, 25, 30, 0.9)');
-  tubeGrad.addColorStop(0.85, 'rgba(80, 100, 120, 0.4)');
-  tubeGrad.addColorStop(1, 'rgba(40, 50, 60, 0.85)');
+  tubeGrad.addColorStop(0, alpha(PAL.sky20, 0.85));
+  tubeGrad.addColorStop(0.15, alpha(PAL.sky39s20, 0.4));
+  tubeGrad.addColorStop(0.5, alpha(PAL.sky10, 0.9));
+  tubeGrad.addColorStop(0.85, alpha(PAL.sky39s20, 0.4));
+  tubeGrad.addColorStop(1, alpha(PAL.sky20, 0.85));
 
   // Tube body
   const r = Math.min(w * 0.4, 12);
@@ -35,7 +35,7 @@ function drawNixieTube(
   g.fill();
 
   // Metal anode mesh grid background inside tube
-  g.strokeStyle = 'rgba(255, 200, 150, 0.08)';
+  g.strokeStyle = alpha(PAL.orange79, 0.08);
   g.lineWidth = 1;
   const gridStep = 4;
   for (let gx = x + 4; gx < x + w - 4; gx += gridStep) {
@@ -57,7 +57,7 @@ function drawNixieTube(
       g.beginPath(); g.arc(x + w / 2, y + h * 0.65, w * 0.12, 0, Math.PI * 2); g.fill();
       g.shadowBlur = 0;
     } else {
-      g.fillStyle = 'rgba(100, 60, 20, 0.3)';
+      g.fillStyle = alpha(PAL.orange24, 0.3);
       g.beginPath(); g.arc(x + w / 2, y + h * 0.35, w * 0.1, 0, Math.PI * 2); g.fill();
       g.beginPath(); g.arc(x + w / 2, y + h * 0.65, w * 0.1, 0, Math.PI * 2); g.fill();
     }
@@ -69,7 +69,7 @@ function drawNixieTube(
   g.font = `700 ${Math.round(h * 0.72)}px "Courier New", monospace`;
   g.textAlign = 'center';
   g.textBaseline = 'middle';
-  g.fillStyle = 'rgba(60, 40, 25, 0.25)';
+  g.fillStyle = alpha(PAL.orange17, 0.25);
   g.fillText(digit, x + w / 2 + 1, y + h / 2 + 2);
 
   // Glowing cathode digit
@@ -90,7 +90,7 @@ function drawNixieTube(
   }
 
   // Glass tube specular highlight streak
-  g.fillStyle = 'rgba(255, 255, 255, 0.12)';
+  g.fillStyle = alpha(PAL.white, 0.12);
   g.beginPath();
   g.ellipse(x + w * 0.25, y + h * 0.5, w * 0.08, h * 0.38, 0, 0, Math.PI * 2);
   g.fill();

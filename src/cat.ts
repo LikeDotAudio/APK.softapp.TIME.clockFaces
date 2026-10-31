@@ -2,7 +2,7 @@
 // clock. Drawn on a DARK panel with a soft WHITE fuzz rim bleeding off the glossy
 // black silhouette (a white brush-stroke shadow) — the fur catching a rim light.
 import { type FaceDef, type FaceCtx, zoneTime, roundRect, TAU } from './shared.js';
-import { PAL } from './palette.js';
+import { PAL, alpha } from './palette.js';
 
 function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const t = zoneTime(c.z);
@@ -13,14 +13,14 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
 
   // Faint cool vignette so the black body reads against the dark window.
   const vig = g.createRadialGradient(cx, S * 0.42, S * 0.05, cx, S * 0.45, S * 0.62);
-  vig.addColorStop(0, 'rgba(38,42,54,0.55)');
-  vig.addColorStop(1, 'rgba(10,11,16,0)');
+  vig.addColorStop(0, alpha(PAL.blue18, 0.55));
+  vig.addColorStop(1, alpha(PAL.blue05, 0));
   g.fillStyle = vig; g.fillRect(0, 0, S, S);
 
   // Silhouette (tail → body → ears → head) with a WHITE fuzz halo — the rim light.
   const fuzz = 0.42 + 0.14 * Math.abs(swing);   // breathes with the pendulum
   g.save();
-  g.shadowColor = `rgba(245,248,255,${fuzz})`;
+  g.shadowColor = alpha(PAL.blue98, fuzz);
   g.shadowBlur = S * 0.05;
 
   g.save();
@@ -46,7 +46,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
 
   // Glossy specular highlights.
   g.save();
-  g.fillStyle = 'rgba(255,255,255,0.14)';
+  g.fillStyle = alpha(PAL.white, 0.14);
   g.beginPath(); g.ellipse(cx - headR * 0.4, headCy - headR * 0.4, headR * 0.42, headR * 0.24, -0.6, 0, TAU); g.fill();
   g.beginPath(); g.ellipse(cx - S * 0.11, S * 0.44, S * 0.05, S * 0.16, 0, 0, TAU); g.fill();
   g.restore();

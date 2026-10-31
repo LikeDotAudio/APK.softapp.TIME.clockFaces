@@ -3,6 +3,7 @@
 //
 //   · no src/*.ts but the palette spells a hex
 //   · every palette colour is used, and spelled once
+//   · no face spells rgba()/hsl(): a colour at an opacity is alpha(PAL.<name>, a) (ROAD-3463)
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -25,4 +26,9 @@ test('every palette colour is used, and spelled once', () => {
   const text = others.map((f) => readFileSync(join(src, f), 'utf8')).join('\n');
   assert.deepEqual(entries.filter(([k]) => !new RegExp(`PAL\\.${k}\\b`).test(text)).map(([k]) => k), []);
   assert.equal(new Set(entries.map(([, v]) => v)).size, entries.length);
+});
+
+test('no face spells rgba()/hsl(): alpha(PAL.<name>, a) instead (ROAD-3463)', () => {
+  const per = others.map((f) => [f, (readFileSync(join(src, f), 'utf8').match(/\brgba?\(|\bhsla?\(/g) ?? []).length]).filter(([, n]) => n > 0);
+  assert.deepEqual(per, [], 'spell them alpha(PAL.<name>, a) (src/palette.ts)');
 });
