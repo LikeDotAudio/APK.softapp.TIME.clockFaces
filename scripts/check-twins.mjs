@@ -59,5 +59,6 @@ const pins = new Set(twins.map((t) => t.pinned).filter(Boolean));
 for (const t of twins) console.log(`  ${t.head.slice(0, 9) || '(not checked out)'}  pinned ${t.pinned.slice(0, 9) || '-'}  ${t.at}`);
 if (twins.length < 2) { console.log(`check:twins: ${twins.length} checkout(s) of ${url} — nothing to compare`); process.exit(0); }
 if (heads.size > 1) { console.error('check:twins: FAIL — the checkouts are on different commits (see the routine in this script\'s header)'); process.exit(1); }
-if (pins.size > 1) { console.log('check:twins: checkouts agree; the parents still pin different commits — bump both pointers'); process.exit(0); }
+const head = [...heads][0];
+if (pins.size > 1 || (pins.size && !pins.has(head))) { console.log('check:twins: checkouts agree; a parent pins another commit — bump both pointers together'); process.exit(0); }
 console.log('check:twins: every checkout and every pin is on the same commit');
