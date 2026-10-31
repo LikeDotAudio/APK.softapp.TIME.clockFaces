@@ -19,7 +19,9 @@ A standalone Git repository, mounted as a submodule at `PODS/POD.THIN/Softapps/T
 | `src/shared.ts` | The face contract (`FaceDef`, `FaceCtx`, `FaceDraw`) and shared helpers: the `ZONES` world-clock catalogue (UTC offsets in minutes), `parseZone` / `deriveZones`, `zoneTime` / `zoneCal`, resolutions `hm` / `hms` / `hmsf` at 30 fps frames, `formatTime`, `roundRect` |
 | `src/<face>.ts` | One face per file, each default-exporting a `FaceDef { id, label, short, order?, fit, lightBg?, draw }`: `analog`, `bigben`, `casio`, `cat`, `digital`, `flip`, `flu`, `horizontal`, `ledring`, `nixie`, `smith`, `timeextreme`, `watch` |
 | `src/lcd.ts` | Seven-segment LCD renderer used by `casio` and `timeextreme`; not a face (no default export) |
-| `src/index.ts` | Barrel: re-exports `shared`, every face, `lcd` as a namespace, and `ALL_FACES` (the 13 faces) |
+| `src/index.ts` | Barrel: re-exports `shared`, every face, `lcd` as a namespace, and `ALL_FACES` — the one face list (13 faces, in `FaceDef.order`) |
+| `package.json`, `test/` | `npm test` — type-check and the face-contract test |
+| `scripts/check-twins.mjs` | `npm run check:twins` — the two monorepo checkouts of this repo are on one commit |
 | `Smith Chart/` | Submodule `APK.softapp.TIME.SmithChart` — the full Smith Chart Clock (`smith_chart_clock.html`, `SmithChartClock/`); documented in its own README |
 | `display.json` | The OS shell's display entry |
 
@@ -29,9 +31,7 @@ A face is pure: `draw(g, S, { z, now, res, state })` paints into an S×S canvas 
 `PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs` bundles the face files (named one by one: digital, ledring, analog, flip, cat, casio, timeextreme, bigben, nixie, flu, horizontal, watch, smith) with esbuild into `OS/Footer/clock-faces/spog-clock-faces.js`, which assigns `window.OS.clockFaces`. The taskbar clock (`render-tray-clock.js`) and the NRC clock (`OS/Clock/nrc-time-signal/mount-nrc-clock.js`) read faces from that array. `src/index.ts` is not used by that bundle.
 
 ### How SPOG uses it
-WEB.SPOG mounts this repo as a submodule at `src/ui/clock-faces` (no second copy) and its CLOCK bench and TIMER wall clock glob `src/*.ts`, keeping every module with a default `FaceDef`.
-
-> ⚠️ `build-faces.mjs` still resolves the faces at `<POD.THIN>/APK:Softapps/TIME.clockFaces/src` and esbuild under `APK:Softapps/DXF/Code/node_modules`; neither path exists since the POD.task rename, so the committed `spog-clock-faces.js` cannot be rebuilt until that script is updated.
+WEB.SPOG mounts this repo as a submodule at `src/ui/clock-faces` (a second checkout of the same repo, not a copy) and its CLOCK bench and TIMER wall clock import `ALL_FACES` from `src/index.ts`. The two checkouts are kept on one commit by hand; `npm run check:twins` checks it (see the wiki's ARCHITECTURE page).
 
 ---
 
@@ -39,14 +39,12 @@ WEB.SPOG mounts this repo as a submodule at `src/ui/clock-faces` (no second copy
 * **Web Portal Entry**: none of its own — the faces appear in the OS taskbar clock and Clock window; the Smith Chart Clock page is `Smith Chart/smith_chart_clock.html`
 * **Remote Repository**: https://github.com/LikeDotAudio/APK.softapp.TIME.clockFaces.git
 
-There is no `package.json`, build or test here. To type-check (with a TypeScript compiler already in the monorepo):
 ```bash
-../../EDITORS/EDITORS.CAD.Like.audio/node_modules/.bin/tsc --noEmit --target ES2022 \
-  --module NodeNext --moduleResolution NodeNext --lib ES2022,DOM --strict src/index.ts
+npm ci && npm test     # strict tsc, then the face-contract test (node --test)
 ```
-It reports no errors. `src/index.ts`'s `ALL_FACES` holds the 13 faces; `lcd` is re-exported as a namespace, not a face.
+`src/index.ts`'s `ALL_FACES` holds the 13 faces; `lcd` is re-exported as a namespace, not a face. `FACE_API` (`src/shared.ts`) versions the contract.
 
-After changing a face, the OS bundle has to be rebuilt (`node build-faces.mjs` in `OS/Footer/clock-faces/`, once its paths are fixed) and the OS images re-baked.
+After changing a face, the OS bundle has to be rebuilt (`node build-faces.mjs` in `OS/Footer/clock-faces/`) and the OS images re-baked.
 
 ---
 
@@ -57,6 +55,7 @@ After changing a face, the OS bundle has to be rebuilt (`node build-faces.mjs` i
 * **A clock reads a real wall time.** Zones are absolute UTC offsets from one catalogue, and the local zone is matched to it from the browser's DST-aware offset, so every face reads a true time (`src/shared.ts`, `ZONES`, `detectZoneIdx`).
 * **A face shows the time, not a controller's value.** Stopwatches and timers are a different contract and are kept out of the face list (`OS/Footer/clock-faces/build-faces.mjs`, the CLOCK FACE vs CHRONOS DISPLAY note).
 * **One source, no hand-ported copy.** The OS bundles these files instead of keeping its own copy (`build-faces.mjs` header).
+* **One face list.** `ALL_FACES` is the list; consumers read it instead of naming or globbing files (`src/index.ts`, `test/faces.test.mjs`).
 
 ---
 

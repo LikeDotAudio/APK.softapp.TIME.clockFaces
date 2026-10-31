@@ -1,5 +1,8 @@
 // src/index.ts — Barrel export for TIME.clockFaces: shared helpers, every face,
-// the lcd renderer (a namespace, not a face) and ALL_FACES (the 13 faces).
+// the lcd renderer (a namespace, not a face) and ALL_FACES — the ONE face list
+// both consumers read (WEB.SPOG's clock bench + timer wall clock, the OS bundle),
+// sorted into UI order by FaceDef.order (default 100; ties keep the order below).
+// test/faces.test.mjs fails when a src/*.ts with a default FaceDef is missing here.
 import analog from './analog.js';
 import bigben from './bigben.js';
 import casio from './casio.js';
@@ -32,7 +35,9 @@ export { default as smith } from './smith.js';
 export { default as timeextreme } from './timeextreme.js';
 export { default as watch } from './watch.js';
 
-export const ALL_FACES: FaceDef[] = [
+const byOrder = (a: FaceDef, b: FaceDef): number => (a.order ?? 100) - (b.order ?? 100);
+
+export const ALL_FACES: readonly FaceDef[] = [
   analog,
   bigben,
   casio,
@@ -46,4 +51,4 @@ export const ALL_FACES: FaceDef[] = [
   smith,
   timeextreme,
   watch,
-];
+].sort(byOrder);

@@ -25,10 +25,8 @@ in the monorepo's `Documentation/🏛Philosophy/`; this page names what this lib
 
 ## Where it breaks them
 
-- **The one source cannot currently be rebuilt into the OS.** `build-faces.mjs` imports esbuild
-  from `APK:Softapps/DXF/Code/node_modules` and reads faces from `APK:Softapps/TIME.clockFaces/src`,
-  neither of which exists since the POD.task rename. The committed
-  `OS/Footer/clock-faces/spog-clock-faces.js` (2026-09-20) is what ships; face edits here do not
-  reach the shell until that script is repointed.
-- **Faces are listed twice.** `src/index.ts` (`ALL_FACES`) and `build-faces.mjs` (`FACES`) each name
-  the faces; a new face needs a line in both.
+- **Two checkouts can drift.** The repo is mounted twice (root and WEB.SPOG), and only the
+  routine plus `npm run check:twins` keeps them on one commit — see
+  [ARCHITECTURE.md](../%F0%9F%A7%A9Manual%20and%20Artifacts/ARCHITECTURE.md#two-checkouts-of-one-repo).
+- **The OS bundle still names its faces.** `build-faces.mjs` keeps its own `FACES` list until it
+  reads `ALL_FACES` (handoff to the OS owner); SPOG already reads `ALL_FACES`.

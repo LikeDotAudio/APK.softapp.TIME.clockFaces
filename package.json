@@ -1,0 +1,16 @@
+{
+  "name": "@apkaudio/time-clockfaces",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The APK.audio canvas clock faces (FaceDef contract, FACE_API 1). Source library: consumers bundle src/.",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "tsc -p tsconfig.json --outDir .test-build --noEmit false",
+    "test": "node --test test/*.test.mjs",
+    "check:twins": "node scripts/check-twins.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

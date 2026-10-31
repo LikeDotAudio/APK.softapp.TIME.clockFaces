@@ -1,11 +1,12 @@
 // src/shared.ts — the clock-face contract + shared primitives.
 //
 // Every face lives in its own file under src/ and default-exports a FaceDef.
-// src/index.ts imports each one into ALL_FACES, and the OS bundle
-// (PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs) names each file in its
-// FACES list: adding a face is a file plus a line in both. WEB.SPOG mounts this
-// repo at src/ui/clock-faces and globs src/*.ts, so SPOG picks a new face up
-// by itself (anything with a default FaceDef). Faces are pure: they draw into an S×S canvas box from a FaceCtx
+// src/index.ts imports each one into ALL_FACES — THE face list, in UI order
+// (FaceDef.order). Consumers read ALL_FACES rather than naming or globbing files
+// (WEB.SPOG mounts this repo at src/ui/clock-faces; the OS bundle is built by
+// PODS/POD.THIN/OS/Footer/clock-faces/build-faces.mjs). Adding a face is a file
+// plus one line in index.ts, and `npm test` fails if the line is missing.
+// FACE_API below versions this contract. Faces are pure: they draw into an S×S canvas box from a FaceCtx
 // (the zone, the frame timestamp, the display resolution, and a per-window state bag
 // for animation) — no DOM, no globals.
 
@@ -147,6 +148,12 @@ export function roundRect(g: CanvasRenderingContext2D, x: number, y: number, w: 
 }
 
 // ---- face contract ----------------------------------------------------------
+/** The face contract's version (FaceDef / FaceCtx / FaceDraw below). Bumped on any
+    change a consumer must adapt to (a renamed field, a new required field, a new
+    draw signature); adding an optional field or a face does not bump it. A consumer
+    checks `FACE_API === <the version it was written for>` at build time. */
+export const FACE_API = 1;
+
 /** Per-window mutable bag a face may stash animation state on (e.g. flip cards). */
 export type FaceState = Record<string, unknown>;
 
