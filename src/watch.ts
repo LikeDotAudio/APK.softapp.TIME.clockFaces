@@ -1,6 +1,7 @@
 // src/watch.ts — Luxury Chronograph Wristwatch Face.
 // Polished metallic bezel, sunburst dial, 3 sub-dials, date window, and luminescent hands.
 import { type FaceDef, type FaceCtx, type FaceDraw, zoneTime, zoneCal, TAU, WEEKDAY3 } from './shared.js';
+import { PAL } from './palette.js';
 
 function drawSubDial(
   g: CanvasRenderingContext2D,
@@ -11,7 +12,7 @@ function drawSubDial(
   g.save();
 
   // Sub-dial inset shadow background
-  g.fillStyle = '#14181f';
+  g.fillStyle = PAL.blue10s22;
   g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.fill();
   g.strokeStyle = 'rgba(212, 175, 55, 0.4)'; g.lineWidth = Math.max(1, R * 0.08); g.stroke();
 
@@ -29,7 +30,7 @@ function drawSubDial(
 
   // Label text if provided
   if (labels && labels.length > 0) {
-    g.fillStyle = '#8a9ba8';
+    g.fillStyle = PAL.sky60s15;
     g.font = `600 ${Math.round(R * 0.35)}px sans-serif`;
     g.textAlign = 'center'; g.textBaseline = 'middle';
     labels.forEach((lbl, idx) => {
@@ -39,7 +40,7 @@ function drawSubDial(
   }
 
   // Sub-dial title
-  g.fillStyle = '#d4af37';
+  g.fillStyle = PAL.amber52;
   g.font = `600 ${Math.round(R * 0.28)}px sans-serif`;
   g.textAlign = 'center';
   g.fillText(title, cx, cy + R * 0.45);
@@ -47,7 +48,7 @@ function drawSubDial(
   // Sub-dial Hand
   const frac = val / maxVal;
   const a = -Math.PI / 2 + frac * TAU;
-  g.strokeStyle = '#e63946';
+  g.strokeStyle = PAL.red56;
   g.lineWidth = Math.max(1.5, R * 0.08);
   g.lineCap = 'round';
   g.beginPath();
@@ -55,7 +56,7 @@ function drawSubDial(
   g.lineTo(cx + Math.cos(a) * R * 0.72, cy + Math.sin(a) * R * 0.72);
   g.stroke();
 
-  g.fillStyle = '#e63946';
+  g.fillStyle = PAL.red56;
   g.beginPath(); g.arc(cx, cy, R * 0.12, 0, TAU); g.fill();
 
   g.restore();
@@ -73,16 +74,16 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
 
   // Metallic Bezel Gradient (Stainless Steel / Polished Gold)
   const bezelGrad = g.createRadialGradient(cx, cy, dialR, cx, cy, outerR);
-  bezelGrad.addColorStop(0, '#505660');
-  bezelGrad.addColorStop(0.3, '#d0d7e0');
-  bezelGrad.addColorStop(0.7, '#88929e');
-  bezelGrad.addColorStop(1, '#2c323b');
+  bezelGrad.addColorStop(0, PAL.grey35);
+  bezelGrad.addColorStop(0.3, PAL.sky85);
+  bezelGrad.addColorStop(0.7, PAL.grey58);
+  bezelGrad.addColorStop(1, PAL.blue20);
 
   g.fillStyle = bezelGrad;
   g.beginPath(); g.arc(cx, cy, outerR, 0, TAU); g.fill();
 
   // Tachymeter markings on bezel outer ring
-  g.strokeStyle = '#1a202c'; g.lineWidth = Math.max(1, S * 0.003);
+  g.strokeStyle = PAL.blue14s26; g.lineWidth = Math.max(1, S * 0.003);
   for (let i = 0; i < 60; i++) {
     const a = (i / 60) * TAU;
     const rIn = dialR + (outerR - dialR) * 0.25;
@@ -95,15 +96,15 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
 
   // Sunburst Dark Navy Dial Face
   const dialGrad = g.createRadialGradient(cx, cy, 0, cx, cy, dialR);
-  dialGrad.addColorStop(0, '#1a2636');
-  dialGrad.addColorStop(0.75, '#0d1520');
-  dialGrad.addColorStop(1, '#050a10');
+  dialGrad.addColorStop(0, PAL.sky16);
+  dialGrad.addColorStop(0.75, PAL.blue09s42);
+  dialGrad.addColorStop(1, PAL.sky04s52);
 
   g.fillStyle = dialGrad;
   g.beginPath(); g.arc(cx, cy, dialR, 0, TAU); g.fill();
 
   // Dial Outer Chapter Ring
-  g.strokeStyle = '#d4af37'; g.lineWidth = S * 0.005;
+  g.strokeStyle = PAL.amber52; g.lineWidth = S * 0.005;
   g.beginPath(); g.arc(cx, cy, dialR * 0.96, 0, TAU); g.stroke();
 
   // Hour Indices & Minute Track
@@ -114,7 +115,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
     if (isHour) {
       // Applied Gold Hour Markers
       const rIn = dialR * 0.78, rOut = dialR * 0.92;
-      g.strokeStyle = '#d4af37';
+      g.strokeStyle = PAL.amber52;
       g.lineWidth = S * 0.018;
       g.beginPath();
       g.moveTo(cx + Math.cos(a) * rIn, cy + Math.sin(a) * rIn);
@@ -122,7 +123,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
       g.stroke();
 
       // Luminous Dot at tip of marker
-      g.fillStyle = '#66ffb2';
+      g.fillStyle = PAL.teal70;
       g.beginPath();
       g.arc(cx + Math.cos(a) * dialR * 0.74, cy + Math.sin(a) * dialR * 0.74, S * 0.008, 0, TAU);
       g.fill();
@@ -155,24 +156,24 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   const dateW = S * 0.13;
   const dateH = S * 0.09;
 
-  g.fillStyle = '#d4af37';
+  g.fillStyle = PAL.amber52;
   g.fillRect(dateX - dateW / 2 - 2, dateY - dateH / 2 - 2, dateW + 4, dateH + 4);
 
-  g.fillStyle = '#f8f9fa';
+  g.fillStyle = PAL.sky98;
   g.fillRect(dateX - dateW / 2, dateY - dateH / 2, dateW, dateH);
 
   const dayStr = WEEKDAY3[cal.day] ?? 'SU';
-  g.fillStyle = '#111';
+  g.fillStyle = PAL.grey07;
   g.font = `700 ${Math.round(S * 0.045)}px "Segoe UI", sans-serif`;
   g.textAlign = 'center'; g.textBaseline = 'middle';
   g.fillText(`${dayStr} ${cal.date}`, dateX, dateY);
 
   // Brand / Zone Emblem text
-  g.fillStyle = '#d4af37';
+  g.fillStyle = PAL.amber52;
   g.font = `700 ${Math.round(S * 0.042)}px "Georgia", serif`;
   g.fillText('CHRONOGRAPH', cx, cy - dialR * 0.16);
 
-  g.fillStyle = '#8a9ba8';
+  g.fillStyle = PAL.sky60s15;
   g.font = `600 ${Math.round(S * 0.035)}px sans-serif`;
   g.fillText(c.z.label.toUpperCase(), cx, cy + dialR * 0.16);
 
@@ -192,7 +193,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
     g.stroke();
 
     if (lume) {
-      g.strokeStyle = '#66ffb2'; g.lineWidth = w * 0.4;
+      g.strokeStyle = PAL.teal70; g.lineWidth = w * 0.4;
       g.beginPath();
       g.moveTo(cx + cos * len * 0.25, cy + sin * len * 0.25);
       g.lineTo(cx + cos * len * 0.85, cy + sin * len * 0.85);
@@ -202,16 +203,16 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   };
 
   // Hour Hand
-  drawMainHand(hourF / 12, dialR * 0.52, S * 0.024, '#e2e8f0', true);
+  drawMainHand(hourF / 12, dialR * 0.52, S * 0.024, PAL.sky91, true);
   // Minute Hand
-  drawMainHand(minF / 60, dialR * 0.76, S * 0.018, '#e2e8f0', true);
+  drawMainHand(minF / 60, dialR * 0.76, S * 0.018, PAL.sky91, true);
   // Sweeping Chrono Second Hand
-  drawMainHand(secF / 60, dialR * 0.88, S * 0.008, '#e63946', false);
+  drawMainHand(secF / 60, dialR * 0.88, S * 0.008, PAL.red56, false);
 
   // Center Cap Pin
-  g.fillStyle = '#d4af37';
+  g.fillStyle = PAL.amber52;
   g.beginPath(); g.arc(cx, cy, S * 0.022, 0, TAU); g.fill();
-  g.fillStyle = '#111';
+  g.fillStyle = PAL.grey07;
   g.beginPath(); g.arc(cx, cy, S * 0.01, 0, TAU); g.fill();
 };
 

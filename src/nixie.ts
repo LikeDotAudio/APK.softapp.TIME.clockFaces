@@ -1,6 +1,7 @@
 // src/nixie.ts — Vintage IN-14 Nixie Tube Clock Face.
 // Warm neon gas-discharge digits glowing inside glass tubes with wire mesh anodes.
 import { type FaceDef, type FaceCtx, zoneTime, formatTime, type FaceDraw } from './shared.js';
+import { PAL } from './palette.js';
 
 function drawNixieTube(
   g: CanvasRenderingContext2D,
@@ -42,16 +43,16 @@ function drawNixieTube(
   }
 
   // Top/Bottom metal caps
-  g.fillStyle = '#222';
+  g.fillStyle = PAL.grey13;
   g.fillRect(x + 2, y, w - 4, 4);
   g.fillRect(x + 2, y + h - 4, w - 4, 4);
 
   if (digit === ':') {
     // Colon separator dots
     if (glowing) {
-      g.shadowColor = '#ff6600';
+      g.shadowColor = PAL.orange50s100;
       g.shadowBlur = 12;
-      g.fillStyle = '#ffb366';
+      g.fillStyle = PAL.orange70;
       g.beginPath(); g.arc(x + w / 2, y + h * 0.35, w * 0.12, 0, Math.PI * 2); g.fill();
       g.beginPath(); g.arc(x + w / 2, y + h * 0.65, w * 0.12, 0, Math.PI * 2); g.fill();
       g.shadowBlur = 0;
@@ -74,15 +75,15 @@ function drawNixieTube(
   // Glowing cathode digit
   if (glowing) {
     // Outer orange glow halo
-    g.shadowColor = '#ff5500';
+    g.shadowColor = PAL.orange50_ff5500;
     g.shadowBlur = 20;
-    g.fillStyle = '#ffaa44';
+    g.fillStyle = PAL.orange63;
     g.fillText(digit, x + w / 2, y + h / 2);
 
     // Inner bright hot core
-    g.shadowColor = '#ffe680';
+    g.shadowColor = PAL.amber75;
     g.shadowBlur = 6;
-    g.fillStyle = '#ffffff';
+    g.fillStyle = PAL.white;
     g.fillText(digit, x + w / 2, y + h / 2);
 
     g.shadowBlur = 0;
@@ -105,13 +106,13 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
 
   // Enclosure / chassis background
   const bgGrad = g.createRadialGradient(S / 2, S / 2, S * 0.1, S / 2, S / 2, S * 0.7);
-  bgGrad.addColorStop(0, '#1a120c');
-  bgGrad.addColorStop(1, '#090604');
+  bgGrad.addColorStop(0, PAL.orange07s37);
+  bgGrad.addColorStop(1, PAL.orange03);
   g.fillStyle = bgGrad;
   g.fillRect(0, 0, S, S);
 
   // Wood / Bakelite bezel trim
-  g.strokeStyle = '#3a2212';
+  g.strokeStyle = PAL.orange15s53;
   g.lineWidth = S * 0.02;
   g.strokeRect(S * 0.04, S * 0.18, S * 0.92, S * 0.64);
 
@@ -133,7 +134,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   }
 
   // Zone Label
-  g.fillStyle = '#d9822b';
+  g.fillStyle = PAL.orange51;
   g.font = `700 ${Math.round(S * 0.045)}px "Courier New", monospace`;
   g.textAlign = 'center';
   g.fillText(`NIXIE IN-14 ▪ ${c.z.label.toUpperCase()}`, S / 2, S * 0.76);

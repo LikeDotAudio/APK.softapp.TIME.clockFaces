@@ -1,6 +1,7 @@
 // src/horizontal.ts — Horizontal Linear Tape / Sliding Ruler Timeline Clock Face.
 // A continuous linear timeline tape sliding past a fixed central hairline indicator.
 import { type FaceDef, type FaceCtx, zoneTime, formatTime, type FaceDraw, pad } from './shared.js';
+import { PAL } from './palette.js';
 
 const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): void => {
   const t = zoneTime(c.z);
@@ -8,7 +9,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   g.clearRect(0, 0, S, S);
 
   // Background chassis
-  g.fillStyle = '#12161c';
+  g.fillStyle = PAL.blue09;
   g.fillRect(0, 0, S, S);
 
   // Horizontal Ruler Window
@@ -17,15 +18,15 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   const centerY = trackY + trackH / 2;
 
   // Track Background
-  g.fillStyle = '#1a222d';
+  g.fillStyle = PAL.blue14;
   g.fillRect(0, trackY, S, trackH);
 
   // Track Borders / Rails
-  g.fillStyle = '#0f1722';
+  g.fillStyle = PAL.blue10;
   g.fillRect(0, trackY - S * 0.02, S, S * 0.02);
   g.fillRect(0, trackY + trackH, S, S * 0.02);
 
-  g.strokeStyle = '#35485e';
+  g.strokeStyle = PAL.sky29;
   g.lineWidth = S * 0.004;
   g.beginPath();
   g.moveTo(0, trackY); g.lineTo(S, trackY);
@@ -56,40 +57,40 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
     const is5Sec = s % 5 === 0;
 
     if (isHour) {
-      g.strokeStyle = '#ff9900';
+      g.strokeStyle = PAL.orange50;
       g.lineWidth = S * 0.008;
       g.beginPath();
       g.moveTo(x, trackY + 2);
       g.lineTo(x, trackY + trackH - 2);
       g.stroke();
 
-      g.fillStyle = '#ffaa33';
+      g.fillStyle = PAL.orange60;
       g.font = `700 ${Math.round(S * 0.045)}px "Segoe UI", monospace`;
       g.fillText(`${pad(h)}:00`, x, trackY + trackH * 0.28);
     } else if (isMinute) {
-      g.strokeStyle = '#40c4ff';
+      g.strokeStyle = PAL.sky63;
       g.lineWidth = S * 0.006;
       g.beginPath();
       g.moveTo(x, trackY + 4);
       g.lineTo(x, trackY + trackH - 4);
       g.stroke();
 
-      g.fillStyle = '#80d8ff';
+      g.fillStyle = PAL.sky75;
       g.font = `600 ${Math.round(S * 0.038)}px "Segoe UI", monospace`;
       g.fillText(`${pad(h)}:${pad(m)}`, x, trackY + trackH * 0.28);
     } else if (is5Sec) {
-      g.strokeStyle = '#78909c';
+      g.strokeStyle = PAL.sky54;
       g.lineWidth = S * 0.004;
       g.beginPath();
       g.moveTo(x, trackY + trackH * 0.4);
       g.lineTo(x, trackY + trackH - 4);
       g.stroke();
 
-      g.fillStyle = '#b0bec5';
+      g.fillStyle = PAL.sky73;
       g.font = `500 ${Math.round(S * 0.03)}px monospace`;
       g.fillText(pad(s), x, trackY + trackH * 0.28);
     } else {
-      g.strokeStyle = '#37474f';
+      g.strokeStyle = PAL.sky26;
       g.lineWidth = S * 0.003;
       g.beginPath();
       g.moveTo(x, trackY + trackH * 0.6);
@@ -99,7 +100,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   }
 
   // Central Hairline Red Indicator Marker
-  g.strokeStyle = '#ff1744';
+  g.strokeStyle = PAL.red55;
   g.lineWidth = S * 0.008;
   g.beginPath();
   g.moveTo(centerX, trackY - S * 0.03);
@@ -107,7 +108,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   g.stroke();
 
   // Top Pointer Arrow
-  g.fillStyle = '#ff1744';
+  g.fillStyle = PAL.red55;
   g.beginPath();
   g.moveTo(centerX - S * 0.02, trackY - S * 0.03);
   g.lineTo(centerX + S * 0.02, trackY - S * 0.03);
@@ -117,13 +118,13 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
 
   // Digital readout above track
   const timeStr = formatTime(t, c.res);
-  g.fillStyle = '#ffffff';
+  g.fillStyle = PAL.white;
   g.font = `700 ${Math.round(S * 0.12)}px "Segoe UI", monospace`;
   g.textAlign = 'center';
   g.fillText(timeStr, S / 2, S * 0.2);
 
   // Bottom Zone & Info Label
-  g.fillStyle = '#90a4ae';
+  g.fillStyle = PAL.sky62;
   g.font = `600 ${Math.round(S * 0.045)}px "Segoe UI", sans-serif`;
   g.fillText(`HORIZONTAL TIMELINE ▪ ${c.z.label.toUpperCase()}`, S / 2, S * 0.82);
 };

@@ -5,6 +5,7 @@
 // interference sum the full Smith Chart Clock traces over a day. That clock, with
 // its controls, is the Clock's Smith Chart tab; this is its small sibling.
 import { type FaceDef, type FaceCtx, zoneTime, TAU } from './shared.js';
+import { PAL } from './palette.js';
 
 const GRID = [0.2, 0.5, 1, 2, 5];
 const MAG = { hour: 0.6, minute: 0.95, second: 0.85 };
@@ -16,12 +17,12 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const thin = Math.max(0.5, S * 0.002);
 
   g.clearRect(0, 0, S, S);
-  g.fillStyle = '#0a0d14';
+  g.fillStyle = PAL.blue06;
   g.beginPath(); g.arc(cx, cy, R * 1.06, 0, TAU); g.fill();
 
   // Constant-resistance circles, all tangent at the open circuit
   g.lineWidth = thin;
-  g.strokeStyle = '#2a3a55';
+  g.strokeStyle = PAL.blue25;
   for (const r of GRID) {
     g.beginPath(); g.arc(cx + (r / (1 + r)) * R, cy, R / (1 + r), 0, TAU); g.stroke();
   }
@@ -29,7 +30,7 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   // Constant-reactance arcs, kept inside the rim
   g.save();
   g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.clip();
-  g.strokeStyle = '#243250';
+  g.strokeStyle = PAL.blue23;
   for (const x of GRID) {
     for (const sign of [1, -1]) {
       g.beginPath(); g.arc(cx + R, cy - (sign / x) * R, R / x, 0, TAU); g.stroke();
@@ -48,16 +49,16 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   // The real axis, and the part of the day already gone along it
   const secF = t.s + t.ms / 1000, minF = t.m + secF / 60, hourF = (t.h % 12) + minF / 60;
   const dayF = (t.h + minF / 60) / 24;
-  g.strokeStyle = '#0284c7'; g.lineWidth = S * 0.004;
+  g.strokeStyle = PAL.sky39; g.lineWidth = S * 0.004;
   g.beginPath(); g.moveTo(cx - R, cy); g.lineTo(cx + R, cy); g.stroke();
   const dayX = cx + (2 * dayF - 1) * R;
-  g.strokeStyle = '#fde047'; g.lineWidth = S * 0.008; g.lineCap = 'round';
+  g.strokeStyle = PAL.amber64; g.lineWidth = S * 0.008; g.lineCap = 'round';
   g.beginPath(); g.moveTo(cx - R, cy); g.lineTo(dayX, cy); g.stroke();
 
   // The rim, |Gamma| = 1, with the twelve hours marked on it
-  g.strokeStyle = '#38bdf8'; g.lineWidth = S * 0.01;
+  g.strokeStyle = PAL.sky60; g.lineWidth = S * 0.01;
   g.beginPath(); g.arc(cx, cy, R, 0, TAU); g.stroke();
-  g.fillStyle = '#94a3b8';
+  g.fillStyle = PAL.blue65s20;
   g.font = `600 ${Math.round(S * 0.045)}px ui-monospace, monospace`;
   g.textAlign = 'center'; g.textBaseline = 'middle';
   for (let h = 1; h <= 12; h++) {
@@ -82,16 +83,16 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const re = MAG.hour * Math.cos(aHour) + MAG.minute * Math.cos(aMin);
   const im = MAG.hour * Math.sin(aHour) + MAG.minute * Math.sin(aMin);
   const sumMag = Math.hypot(re, im) / (MAG.hour + MAG.minute);
-  hand(Math.atan2(im, re), sumMag, S * 0.012, '#a855f7');
+  hand(Math.atan2(im, re), sumMag, S * 0.012, PAL.violet65);
 
-  hand(aHour, MAG.hour, S * 0.026, '#f43f5e');
-  hand(aMin, MAG.minute, S * 0.017, '#38bdf8');
-  hand(aSec, MAG.second, S * 0.007, '#facc15');
+  hand(aHour, MAG.hour, S * 0.026, PAL.red60);
+  hand(aMin, MAG.minute, S * 0.017, PAL.sky60);
+  hand(aSec, MAG.second, S * 0.007, PAL.amber53s96);
 
   // The matched centre, and the day dot on top of everything
-  g.fillStyle = '#38bdf8';
+  g.fillStyle = PAL.sky60;
   g.beginPath(); g.arc(cx, cy, S * 0.014, 0, TAU); g.fill();
-  g.fillStyle = '#ffffff'; g.shadowColor = '#fde047'; g.shadowBlur = S * 0.03;
+  g.fillStyle = PAL.white; g.shadowColor = PAL.amber64; g.shadowBlur = S * 0.03;
   g.beginPath(); g.arc(dayX, cy, S * 0.016, 0, TAU); g.fill();
   g.shadowBlur = 0;
 }

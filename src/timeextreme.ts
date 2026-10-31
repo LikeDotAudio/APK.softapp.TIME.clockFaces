@@ -4,6 +4,7 @@
 // LCD family as the Clasio face.
 import { type FaceDef, type FaceCtx, zoneTime, zoneCal, WEEKDAY3, pad, roundRect } from './shared.js';
 import { drawLcd, lcdWidth, type LcdStyle } from './lcd.js';
+import { PAL } from './palette.js';
 
 function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   const t = zoneTime(c.z), cal = zoneCal(c.z);
@@ -14,25 +15,25 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   // Corner Law (LCARS.md §1.1): each nested level's radius is HALF its parent's.
   const bx = S * 0.05, by = S * 0.02, bw = S * 0.9, bh = S * 0.96, br = S * 0.18;
   const body = g.createLinearGradient(0, by, 0, by + bh);
-  body.addColorStop(0, '#4a4d52'); body.addColorStop(0.12, '#2a2c30');
-  body.addColorStop(0.5, '#17181b'); body.addColorStop(1, '#242629');
+  body.addColorStop(0, PAL.grey31); body.addColorStop(0.12, PAL.grey18);
+  body.addColorStop(0.5, PAL.grey10s8); body.addColorStop(1, PAL.grey15);
   roundRect(g, bx, by, bw, bh, br); g.fillStyle = body; g.fill();
 
   // corner screws + side buttons (one orange).
-  g.fillStyle = '#3c3e42';
+  g.fillStyle = PAL.grey25s5;
   for (const [sx, sy] of [[0.16, 0.14], [0.84, 0.14], [0.16, 0.86], [0.84, 0.86]] as const) {
     g.beginPath(); g.arc(bx + bw * sx, by + bh * sy, S * 0.02, 0, Math.PI * 2); g.fill();
   }
-  g.fillStyle = '#e8801a'; g.fillRect(bx - S * 0.02, by + bh * 0.5, S * 0.035, bh * 0.12);   // MODE
-  g.fillStyle = '#3c3e42';
+  g.fillStyle = PAL.orange51s82; g.fillRect(bx - S * 0.02, by + bh * 0.5, S * 0.035, bh * 0.12);   // MODE
+  g.fillStyle = PAL.grey25s5;
   g.fillRect(bx + bw - S * 0.015, by + bh * 0.22, S * 0.035, bh * 0.1);
   g.fillRect(bx + bw - S * 0.015, by + bh * 0.68, S * 0.035, bh * 0.1);
 
   // ---- bezel engraving: the TIME ZONE (top) + accents ----
-  g.fillStyle = '#e8801a';
+  g.fillStyle = PAL.orange51s82;
   g.font = `800 ${Math.round(S * 0.06)}px Arial,Helvetica,sans-serif`;
   g.fillText(c.z.label.toUpperCase().slice(0, 14), S / 2, by + bh * 0.085);
-  g.fillStyle = '#c8ccd2';
+  g.fillStyle = PAL.grey80;
   g.font = `700 ${Math.round(S * 0.026)}px Arial,sans-serif`;
   g.fillText('WATER  RESISTANT · 100 METERS', S / 2, by + bh * 0.155);
   g.fillText('8 LAP   MEMORY   STOPWATCH', S / 2, by + bh * 0.9);
@@ -40,19 +41,19 @@ function draw(g: CanvasRenderingContext2D, S: number, c: FaceCtx): void {
   // ---- orange-framed greenish LCD ----
   const fr = br / 2;   // orange frame = ½ body
   const fx = S * 0.13, fy = S * 0.21, fw = S * 0.74, fh = S * 0.58;
-  roundRect(g, fx, fy, fw, fh, fr); g.fillStyle = '#e8801a'; g.fill();
+  roundRect(g, fx, fy, fw, fh, fr); g.fillStyle = PAL.orange51s82; g.fill();
   const lx = fx + S * 0.018, ly = fy + S * 0.018, lw = fw - S * 0.036, lh = fh - S * 0.036;
   const lcdbg = g.createLinearGradient(0, ly, 0, ly + lh);
-  lcdbg.addColorStop(0, '#cdd3c4'); lcdbg.addColorStop(1, '#b4baa8');
+  lcdbg.addColorStop(0, PAL.lime80s15); lcdbg.addColorStop(1, PAL.grey69s12);
   roundRect(g, lx, ly, lw, lh, fr / 2); g.fillStyle = lcdbg; g.fill();   // LCD = ½ frame
 
-  const on = '#1b1f16', off = 'rgba(30,36,20,0.10)';
+  const on = PAL.lime10, off = 'rgba(30,36,20,0.10)';
 
   // IRONMAN TRIATHLON header.
   g.textBaseline = 'middle';
-  g.fillStyle = '#2b6fb0'; g.font = `900 ${Math.round(S * 0.03)}px Arial,sans-serif`;
+  g.fillStyle = PAL.sky43; g.font = `900 ${Math.round(S * 0.03)}px Arial,sans-serif`;
   g.textAlign = 'left'; g.fillText('IRONMAN', lx + lw * 0.06, ly + lh * 0.1);
-  g.fillStyle = '#23271d'; g.fillText(' TRIATHLON', lx + lw * 0.06 + S * 0.11, ly + lh * 0.1);
+  g.fillStyle = PAL.lime13; g.fillText(' TRIATHLON', lx + lw * 0.06 + S * 0.11, ly + lh * 0.1);
   g.textAlign = 'center';
 
   // Top row: weekday (text) + MM.DD (7-seg, sized to fit the right half).
