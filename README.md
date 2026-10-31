@@ -22,7 +22,7 @@ A standalone Git repository, mounted as a submodule at `PODS/POD.THIN/Softapps/T
 | `src/index.ts` | Barrel: re-exports `shared`, every face, `lcd` as a namespace, and `ALL_FACES` — the one face list (13 faces, in `FaceDef.order`) |
 | `package.json`, `test/` | `npm test` — type-check and the face-contract test |
 | `scripts/check-twins.mjs` | `npm run check:twins` — the two monorepo checkouts of this repo are on one commit |
-| `Smith Chart/` | Submodule `APK.softapp.TIME.SmithChart` — the full Smith Chart Clock (`smith_chart_clock.html`, `SmithChartClock/`); documented in its own README |
+| `Smith Chart/` | Submodule `APK.softapp.TIME.SmithChart` — the full Smith Chart Clock page (`smith_chart_clock.html`; the unused `SmithChartClock/` port was retired there, 88bd24c); documented in its own README |
 | `display.json` | The OS shell's display entry |
 
 A face is pure: `draw(g, S, { z, now, res, state })` paints into an S×S canvas box — no DOM, no globals.

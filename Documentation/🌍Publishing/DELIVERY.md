@@ -43,3 +43,5 @@ TypeScript sources; this repository builds nothing itself. `npm test` checks it.
   --detach FETCH_HEAD` in the other, bump both parents) is in
   [ARCHITECTURE.md](../%F0%9F%A7%A9Manual%20and%20Artifacts/ARCHITECTURE.md#two-checkouts-of-one-repo).
   WEB.SPOG exposes the same check as `npm run check:clock-faces`.
+- **check:twins also checks the parents' pins** (1563396) — when the checkouts agree but a parent pins another commit, `scripts/check-twins.mjs` says so ("bump both pointers together") instead of passing silently. Verified 2026-10-31: both checkouts and both pins on 412a3ed.
+- **Smith Chart is page-only** (4c36764, 412a3ed) — `Smith Chart/` → `88bd24c`: the page `smith_chart_clock.html` is canonical and the unused `SmithChartClock/` port is retired there; nothing here imported it. `npm test` 6/6 (2026-10-31).
