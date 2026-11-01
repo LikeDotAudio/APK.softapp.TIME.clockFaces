@@ -1,6 +1,6 @@
 {
   "name": "@apkaudio/time-clockfaces",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "description": "The APK.audio canvas clock faces (FaceDef contract, FACE_API 1). Source library: consumers bundle src/.",
