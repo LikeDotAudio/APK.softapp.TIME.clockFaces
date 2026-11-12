@@ -48,5 +48,15 @@ TypeScript sources; this repository builds nothing itself. `npm test` checks it.
 - **One palette** (ROAD-3449, 2026-10-31) — the 161 hex literals the faces spelled live in `src/palette.ts` (120 colours, `PAL.<family><lightness>`, the naming of WEB.SPOG's `src/domain/palette.ts`); `test/palette.test.mjs` holds the rest of `src/` at zero. `npm test` 8/8, `tsc` clean. The OS bundle (`OS/Footer/clock-faces/spog-clock-faces.js`) picks it up on its next `node build-faces.mjs`; the colours are unchanged.
 - **No rgba() either** (ROAD-3463, 2026-10-31) — the 27 `rgba()` the faces spelled are `alpha(PAL.<name>, a)` (`src/palette.ts` gains `alpha()`, the twin of WEB.SPOG's, and 16 colours); `test/palette.test.mjs` holds `rgba()`/`hsl()` at zero. Measured, headless Chrome 154, every face at a fixed time vs d1290d5: 12 of 14 identical, nixie ≤2 levels, cat's vignette tail ≤6 levels (the 0%-alpha end stop). `npm test` 9/9, `tsc` clean. The OS bundle picks it up on its next `node build-faces.mjs`.
 
+## Delivered 2026-11-11 – 2026-11-12
+
+From this repository's own commits (the commit message is the record):
+
+- VFD face: whole seconds at most (no frames) and the digits sized to the glass, never past the frame (`82ab4d8`)
+- bump: apk-contracts re-vendored in nested repos (report.ts: LogLine + ProblemRecord) (`7106453`)
+- bump: apk-softapp re-vendored in nested repos (every problem card reported through the SDK, ROAD-3695 step 2) (`f6cdf36`)
+- bump: apk-contracts re-vendored in nested repos (five report codes, ROAD-3695) (`ead9830`)
+- bump 1 submodule(s): apk-contracts web bundle re-vendored, contracts 2.4.0 retires APK.audio/Tests/{suite} (ROAD-3729) (`034d4cc`)
+
 ## Releases
 - **Released `2.0.0`, tag `v2.0.0`** (2026-11-01, ROAD-3452, the owner's V2) — no SDK pin; every manifest says 2.0.0; GitHub release `v2.0.0`.
