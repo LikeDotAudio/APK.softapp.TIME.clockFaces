@@ -5,7 +5,10 @@ import { PAL, alpha } from './palette.js';
 
 const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): void => {
   const t = zoneTime(c.z);
-  const timeStr = formatTime(t, c.res);
+  /* Whole seconds at most (owner 2026-11-11: "no sub second"): a VFD tube shows
+     HH:MM:SS; frames would run off the glass. */
+  const res = c.res === 'hm' ? 'hm' : 'hms';
+  const timeStr = formatTime(t, res);
 
   g.clearRect(0, 0, S, S);
 
@@ -46,7 +49,16 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   g.shadowColor = PAL.cyan50;
   g.shadowBlur = S * 0.03;
   g.fillStyle = PAL.teal50;
-  g.font = `700 ${Math.round(S * 0.16)}px "Lucida Console", "Consolas", monospace`;
+  /* Sized to the glass, never past it ("the VFD should be in the frame"): the
+     digits take at most 86 % of the window's width. */
+  let digitPx = Math.round(S * 0.16);
+  g.font = `700 ${digitPx}px "Lucida Console", "Consolas", monospace`;
+  const fitW = windowW * 0.86;
+  const measured = g.measureText(timeStr).width;
+  if (measured > fitW) {
+    digitPx = Math.floor(digitPx * fitW / measured);
+    g.font = `700 ${digitPx}px "Lucida Console", "Consolas", monospace`;
+  }
   g.textAlign = 'center';
   g.textBaseline = 'middle';
   g.fillText(timeStr, S / 2, S * 0.46);
@@ -73,7 +85,7 @@ const draw: FaceDraw = (g: CanvasRenderingContext2D, S: number, c: FaceCtx): voi
   g.fillText(`VFD-8000 ▪ FLUORESCENT`, windowX + S * 0.04, windowY + S * 0.08);
 
   g.textAlign = 'right';
-  g.fillText(`${c.z.label.toUpperCase()} (${c.res.toUpperCase()})`, windowX + windowW - S * 0.04, windowY + S * 0.08);
+  g.fillText(`${c.z.label.toUpperCase()} (${res.toUpperCase()})`, windowX + windowW - S * 0.04, windowY + S * 0.08);
 
   // Bottom Status Bar
   g.fillStyle = alpha(PAL.teal50, 0.15);
