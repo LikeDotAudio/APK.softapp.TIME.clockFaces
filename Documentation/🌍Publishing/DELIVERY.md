@@ -57,6 +57,8 @@ From this repository's own commits (the commit message is the record):
 - bump: apk-softapp re-vendored in nested repos (every problem card reported through the SDK, ROAD-3695 step 2) (`f6cdf36`)
 - bump: apk-contracts re-vendored in nested repos (five report codes, ROAD-3695) (`ead9830`)
 - bump 1 submodule(s): apk-contracts web bundle re-vendored, contracts 2.4.0 retires APK.audio/Tests/{suite} (ROAD-3729) (`034d4cc`)
+- wiki: lanes, README and smoke result refreshed (wiki.py + smoke.py) (`8251e97`)
+- docs(smoke): pass — results in the wiki (`cf9a301`)
 
 ## Releases
 - **Released `2.0.0`, tag `v2.0.0`** (2026-11-01, ROAD-3452, the owner's V2) — no SDK pin; every manifest says 2.0.0; GitHub release `v2.0.0`.
