@@ -4,12 +4,12 @@ Is `TIME.clockFaces` deployed? Written by `.apk.scripts/smoke.py` from the modul
 
 ← [Wiki home](../README.md)
 
-**✅ PASS** — 1/1 checks, since 2026-10-30 12:51 EDT
+**❌ FAIL** — 0/1 checks, since 2026-11-12 00:16 EST
 
 | Check | Target | Result | Detail |
 |---|---|---|---|
-| pushed | [APK.softapp.TIME.clockFaces](https://github.com/LikeDotAudio/APK.softapp.TIME.clockFaces.git) | ✅ | HEAD is on origin |
+| pushed | [APK.softapp.TIME.clockFaces](https://github.com/LikeDotAudio/APK.softapp.TIME.clockFaces.git) | ❌ | 1 commit(s) not pushed |
 
 Re-run: `python3 .apk.scripts/smoke.py PODS/POD.THIN/Softapps/TIME/TIME.clockFaces`
 
-<!-- smoke:sig ffe07fd7bcd4 since 2026-10-30 12:51 EDT -->
+<!-- smoke:sig 81b100a1f976 since 2026-11-12 00:16 EST -->
